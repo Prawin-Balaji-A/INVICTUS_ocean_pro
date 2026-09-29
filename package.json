@@ -1,0 +1,25 @@
+{
+  "name": "water-three-js",
+  "version": "1.0.0",
+  "description": "Production-quality realistic ocean rendered with Three.js — above and below water, FFT-inspired Gerstner waves, foam, caustics, volumetric light and full underwater environment.",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n vite,node,ingest -c cyan,green,magenta \"vite\" \"node server/index.js\" \"npm:dev:ingest\"",
+    "dev:ingest": "cd ingestion && .venv\\Scripts\\python -m uvicorn app:app --host 127.0.0.1 --port 8000",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@google/genai": "^2.21.0",
+    "concurrently": "^10.0.5",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "lil-gui": "^0.20.0",
+    "three": "^0.185.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}

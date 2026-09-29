@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ocean Pro — Complete Technical Specification & Architecture Manual</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+      @bottom-right {
+        content: counter(page);
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        font-size: 8pt;
+        color: #64748b;
+      }
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      color: #0f172a;
+      background-color: #ffffff;
+      line-height: 1.55;
+      font-size: 10pt;
+    }
+
+    /* Cover Page */
+    .cover-page {
+      page-break-after: always;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 85vh;
+      padding: 40px 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      font-size: 8.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-radius: 9999px;
+      background: #e0f2fe;
+      color: #0369a1;
+      margin-bottom: 20px;
+    }
+
+    .cover-title {
+      font-size: 32pt;
+      font-weight: 800;
+      line-height: 1.15;
+      color: #032b44;
+      margin-bottom: 12px;
+    }
+
+    .cover-subtitle {
+      font-size: 13pt;
+      font-weight: 400;
+      color: #475569;
+      margin-bottom: 40px;
+      max-width: 620px;
+    }
+
+    .cover-meta {
+      border-top: 2px solid #e2e8f0;
+      padding-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      width: 100%;
+      max-width: 650px;
+    }
+
+    .meta-item h4 {
+      font-size: 8pt;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+
+    .meta-item p {
+      font-size: 10pt;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    /* Section Typography */
+    h1 {
+      font-size: 18pt;
+      font-weight: 800;
+      color: #032b44;
+      border-bottom: 2px solid #0284c7;
+      padding-bottom: 6px;
+      margin-top: 28px;
+      margin-bottom: 14px;
+      page-break-after: avoid;
+    }
+
+    h2 {
+      font-size: 13pt;
+      font-weight: 700;
+      color: #0c4a6e;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      page-break-after: avoid;
+    }
+
+    h3 {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 12px;
+      margin-bottom: 6px;
+      page-break-after: avoid;
+    }
+
+    p {
+      margin-bottom: 10px;
+      color: #334155;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 12px;
+      color: #334155;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 20px 0;
+      font-size: 8.5pt;
+      page-break-inside: avoid;
+    }
+
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 7.5pt;
+      font-weight: 600;
+      margin-right: 4px;
+      margin-bottom: 2px;
+    }
+
+    .tag-blue { background: #e0f2fe; color: #0369a1; }
+    .tag-green { background: #dcfce7; color: #15803d; }
+    .tag-purple { background: #f3e8ff; color: #7e22ce; }
+    .tag-amber { background: #fef3c7; color: #b45309; }
+
+    /* Callout Boxes */
+    .callout {
+      border-left: 4px solid #0284c7;
+      background-color: #f0f9ff;
+      padding: 12px 16px;
+      margin: 14px 0;
+      border-radius: 0 6px 6px 0;
+      font-size: 9pt;
+      page-break-inside: avoid;
+    }
+
+    .callout-title {
+      font-weight: 700;
+      color: #0369a1;
+      margin-bottom: 4px;
+    }
+
+    /* Code Blocks */
+    code {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 8.5pt;
+      background-color: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: #094067;
+    }
+
+    pre {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 8pt;
+      background-color: #0f172a;
+      color: #f8fafc;
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 10px 0;
+      page-break-inside: avoid;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    .architecture-diagram {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px 0;
+      font-size: 8pt;
+      font-family: 'Consolas', monospace;
+      line-height: 1.4;
+      white-space: pre;
+      color: #1e293b;
+      page-break-inside: avoid;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- COVER PAGE -->
+  <div class="cover-page">
+    <div class="badge">Technical Specification & Architecture Manual</div>
+    <div class="cover-title">OCEAN PRO</div>
+    <div class="cover-subtitle">Real-Time Interactive Marine Ecosystem, Bathymetric Ocean Simulation, Oceanographic Instruments & Multi-Agent Artificial Intelligence System</div>
+    
+    <div class="cover-meta">
+      <div class="meta-item">
+        <h4>Architecture</h4>
+        <p>WebGL / Three.js + Express + Google Gemini API</p>
+      </div>
+      <div class="meta-item">
+        <h4>Scientific Grounding</h4>
+        <p>WoRMS, FishBase, OBIS, NOAA ERDDAP</p>
+      </div>
+      <div class="meta-item">
+        <h4>Simulation Layer</h4>
+        <p>FFT/Gerstner Waves, Boids Schooling, HFSM AI</p>
+      </div>
+      <div class="meta-item">
+        <h4>Version & Release</h4>
+        <p>Version 1.0.0 (Production Architecture)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: ARCHITECTURAL OVERVIEW -->
+  <h1>1. Executive Architecture Overview</h1>
+  <p><strong>Ocean Pro</strong> is an end-to-end, scientifically grounded 3D oceanographic simulation and autonomous marine ecosystem. It pairs high-performance WebGL graphics (physical water shaders, caustic projection, light attenuation, and volumetric atmosphere) with high-fidelity agent artificial intelligence and authentic global marine science data.</p>
+  
+  <div class="architecture-diagram">
++---------------------------------------------------------------------------------------------------+
+|                                      OCEAN PRO CLIENT (BROWSER)                                   |
+|                                                                                                   |
+|  [ Presentation & UI Layer ]                                                                      |
+|  • UIManager (Glassmorphic HUD, Bathymetric Depth Gauge, Sim Toolbar, Marine Codex Dossier)       |
+|  • Radar Mini-Map (Dynamic Sonar Sweep, Category Entity Tracking, Range Grid)                     |
+|  • HybridControls (Boat/Car-Style Turning & Propulsion, Vertical Thrusters, Free Mouse)           |
+|                                                                                                   |
+|  [ 3D Rendering & Environmental Pipeline - Three.js 0.185.0 ]                                     |
+|  • Ocean Shaders: Multi-octave Gerstner waves, crest foam, Beer-Lambert light absorption          |
+|  • Post-Processing: Tone mapping, volumetric god rays, underwater fog grading, caustics          |
+|  • Atmospheric Sky: Dynamic day/night sun-moon cycles, procedural clouds, horizon scattering      |
+|  • Bathymetry & Seabed: Procedural noise seafloor (-148m), sunken shipwreck, multi-coral reefs    |
+|                                                                                                   |
+|  [ Autonomous Marine Ecosystem AI (60 FPS) ]                                                      |
+|  • EcosystemAI / DecisionSystem: Hierarchical Finite State Machine (Wander, School, Chase, Flee)  |
+|  • SchoolManager: Craig Reynolds Boids (Separation, Alignment, Cohesion) 60 FPS real-time sync    |
+|  • TargetSelection: Taxonomic predator-prey food web validation (apex sharks, pelagic, teleosts) |
+|  • Geometric Normalizer: Bounding-box pivot offsetting eliminating Blender scale displacements    |
+|                                                                                                   |
+|  [ Oceanographic Technology & Scientific Simulations ]                                            |
+|  • Instruments: Autonomous Argo CTD profiling floats, Sawtooth underwater gliders, ROVs, Buoys    |
+|  • Ocean Science: PFZ (Potential Fishing Zones), SAR Drift Monte Carlo model, Geostrophic Eddies  |
++---------------------------------------------------------------------------------------------------+
+                                         | REST / JSON
+                                         v
++---------------------------------------------------------------------------------------------------+
+|                                  INTELLIGENCE BACKEND (NODE.JS / EXPRESS)                         |
+|                                                                                                   |
+|  • Express 5.2 Server (port 3000): /api/intelligence/research endpoint                            |
+|  • Google GenAI SDK (@google/genai 2.21.0): Gemini 3.5 Flash / Flash Lite Agent                   |
+|  • Autonomous Function Calling & Verification Pipeline:                                          |
+|      - searchWoRMS: World Register of Marine Species (Taxonomy, AphiaID, Accepted Names)          |
+|      - searchFishBase: Biological Trophic Levels, Speed, Depth Envelope                           |
+|      - searchOBIS: Ocean Biodiversity Information System (Spatial Occurrences)                    |
+|      - searchERDDAP: NOAA Satellite Sea Surface Temperature (SST) & Salinity                      |
++---------------------------------------------------------------------------------------------------+
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Key Engineering Paradigm</div>
+    Ocean Pro separates <strong>instant local execution</strong> from <strong>background scientific enrichment</strong>. The client maintains an authoritative local Marine Knowledge Base (<code>MarineKnowledgeBase.js</code>) providing zero-latency biological profiles from frame 0, while asynchronous background research via the Gemini backend enriches and validates species metadata via live WoRMS and FishBase queries without hitching the 60 FPS WebGL render loop.
+  </div>
+
+  <!-- SECTION 2: TECH STACK MATRIX -->
+  <div class="page-break"></div>
+  <h1>2. Complete Technology Stack</h1>
+  <p>The table below summarizes every core library, runtime, framework, and tooling used in Ocean Pro:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 22%;">Technology</th>
+        <th style="width: 14%;">Version</th>
+        <th style="width: 24%;">Category</th>
+        <th style="width: 40%;">Role in Application</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Three.js</strong></td>
+        <td><code>^0.185.0</code></td>
+        <td><span class="tag tag-blue">3D Engine</span></td>
+        <td>WebGL core renderer, custom GLSL shader materials, scene graph, lights, cameras, SkinnedMesh skeletal animation.</td>
+      </tr>
+      <tr>
+        <td><strong>@google/genai</strong></td>
+        <td><code>^2.21.0</code></td>
+        <td><span class="tag tag-purple">AI / LLM SDK</span></td>
+        <td>Official Google GenAI SDK interfacing with Gemini 3.5 Flash for autonomous tool calling, species taxonomy research, and evidence synthesis.</td>
+      </tr>
+      <tr>
+        <td><strong>Express</strong></td>
+        <td><code>^5.2.1</code></td>
+        <td><span class="tag tag-green">Backend Runtime</span></td>
+        <td>REST API server proxying client requests, orchestrating multi-turn tool calling with Gemini, and protecting API keys.</td>
+      </tr>
+      <tr>
+        <td><strong>Vite</strong></td>
+        <td><code>^6.0.0</code></td>
+        <td><span class="tag tag-amber">Build Tool</span></td>
+        <td>Development server with Hot Module Replacement (HMR) and optimized Rollup-based production bundler with GLTF/GLB asset hashing.</td>
+      </tr>
+      <tr>
+        <td><strong>lil-gui</strong></td>
+        <td><code>^0.20.0</code></td>
+        <td><span class="tag tag-blue">HUD / GUI</span></td>
+        <td>Interactive runtime developer controls for wave parameters, time-of-day sunlight angles, underwater turbidity, and debug states.</td>
+      </tr>
+      <tr>
+        <td><strong>cors</strong></td>
+        <td><code>^2.8.6</code></td>
+        <td><span class="tag tag-green">Middleware</span></td>
+        <td>Enables secure cross-origin resource sharing between Vite frontend (port 5173) and Express backend (port 3000).</td>
+      </tr>
+      <tr>
+        <td><strong>dotenv</strong></td>
+        <td><code>^17.4.2</code></td>
+        <td><span class="tag tag-green">Environment</span></td>
+        <td>Zero-dependency module that loads environment variables (<code>GEMINI_API_KEY</code>) from <code>.env</code> files into <code>process.env</code>.</td>
+      </tr>
+      <tr>
+        <td><strong>concurrently</strong></td>
+        <td><code>^10.0.5</code></td>
+        <td><span class="tag tag-amber">Dev Tooling</span></td>
+        <td>Runs Vite client server and Node Express intelligence server simultaneously under a single <code>npm run dev</code> lifecycle.</td>
+      </tr>
+      <tr>
+        <td><strong>HTML5 / Canvas</strong></td>
+        <td>Standard</td>
+        <td><span class="tag tag-blue">Graphics</span></td>
+        <td>High-performance 2D Canvas rendering for the bathymetric Sonar Radar HUD, sweep lines, and blip rendering.</td>
+      </tr>
+      <tr>
+        <td><strong>CSS3 (Modern)</strong></td>
+        <td>Standard</td>
+        <td><span class="tag tag-blue">UI Styling</span></td>
+        <td>Backdrop-filter blur glassmorphism, responsive grid layouts, custom scrollbars, and keyframe HUD animations.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 3: FEATURE-TO-TECH BREAKDOWN -->
+  <div class="page-break"></div>
+  <h1>3. Feature Breakdown: "For What Feature We Used What"</h1>
+
+  <h2>3.1. Photorealistic Ocean Water & Underwater Optical Atmosphere</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">Feature Component</th>
+        <th style="width: 30%;">Technologies & Modules Used</th>
+        <th style="width: 45%;">Implementation Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Wave Synthesis</strong></td>
+        <td>Custom GLSL Vertex Shader, Three.js <code>ShaderMaterial</code></td>
+        <td>Multi-octave Gerstner wave equations running on the GPU. Computes analytical wave steepness, wavelength, direction, and displacement vector with normal Jacobian calculation.</td>
+      </tr>
+      <tr>
+        <td><strong>Water Surface Optics</strong></td>
+        <td>Custom GLSL Fragment Shader, Three.js <code>PlaneGeometry</code></td>
+        <td>Fresnel reflection, Cook-Torrance specular highlights, dynamic foam generation at crests based on Jacobian compression thresholds, and normal map perturbance.</td>
+      </tr>
+      <tr>
+        <td><strong>Underwater Caustics</strong></td>
+        <td>Three.js <code>TextureLoader</code>, Additive Blending, GLSL</td>
+        <td>Dynamic high-contrast caustic light maps projected downward onto the seabed and marine life bodies, fading with depth according to exponential light absorption.</td>
+      </tr>
+      <tr>
+        <td><strong>Light Absorption & Turbidity</strong></td>
+        <td>Beer-Lambert Law formulation, Three.js FogExp2</td>
+        <td>Wavelength-dependent absorption: red light attenuates within 5m, yellow/green within 25m, leaving deep cyan/blue hues down to the aphotic seabed at -148m.</td>
+      </tr>
+      <tr>
+        <td><strong>Volumetric God Rays</strong></td>
+        <td>Three.js Post-Processing, Custom Pass in <code>Post.js</code></td>
+        <td>Screen-space radial blur pass taking bright sun specular samples and projecting luminous volumetric shafts through the water column.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>3.2. Camera Navigation & Vehicular Steering</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">Feature Component</th>
+        <th style="width: 30%;">Technologies & Modules Used</th>
+        <th style="width: 45%;">Implementation Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Boat / Car-Style Steering</strong></td>
+        <td><code>HybridControls.js</code>, Vector Math, Euler Angles</td>
+        <td><strong>A/D Keys:</strong> Perform continuous heading rotation without lateral strafing. <strong>W/S Keys:</strong> Propel along forward/backward vector. <strong>W+A / W+D:</strong> Produce curved arcs.</td>
+      </tr>
+      <tr>
+        <td><strong>Vertical Propulsion</strong></td>
+        <td><code>HybridControls.js</code>, Vertical Kinematics</td>
+        <td>Q/E and Shift/Space allow smooth diving under the thermocline, exploring deep abyssal reefs, or resurfacing with water-transition detection.</td>
+      </tr>
+      <tr>
+        <td><strong>Pointer Freedom</strong></td>
+        <td>DOM Mouse Event Listeners, Three.js Raycaster</td>
+        <td>Pointer lock is intentionally avoided so the cursor is always available to click Codex cards, radar, advisory filters, and toolbar controls. Mouse drag orbits view.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>3.3. Autonomous Marine Life & Multi-Agent Ecosystem AI</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">Feature Component</th>
+        <th style="width: 30%;">Technologies & Modules Used</th>
+        <th style="width: 45%;">Implementation Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Model Ingestion & Centering</strong></td>
+        <td>Three.js <code>GLTFLoader</code>, <code>SkeletonUtils</code></td>
+        <td>Surgically offsets model bounding-box centers (<code>pivotGroup</code>) to eliminate Blender coordinate offsets, guaranteeing all creatures stay sub-surface ($Y \le -2.5\text{m}$).</td>
+      </tr>
+      <tr>
+        <td><strong>Skeletal Animation</strong></td>
+        <td>Three.js <code>AnimationMixer</code>, Clip matching</td>
+        <td>Detects swim clips from GLTF animations (<code>findSwimClip</code>), applying speed-synchronized cadence playback (<code>timeScale</code>) so tail frequencies match propulsion.</td>
+      </tr>
+      <tr>
+        <td><strong>Real-Time Schooling</strong></td>
+        <td><code>SchoolManager.js</code>, <code>Steering.js</code></td>
+        <td>Craig Reynolds Boids algorithm executing every frame at 60 FPS. Groups yellowback fusiliers, tangs, and discus with continuous flocking synchronization.</td>
+      </tr>
+      <tr>
+        <td><strong>Predator-Prey Food Web</strong></td>
+        <td><code>TargetSelection.js</code>, <code>DecisionSystem.js</code></td>
+        <td>Evaluates prey eligibility against predator taxonomy (<code>huntsTaxa</code>). Triggers predator <code>CHASE</code> and <code>ATTACK</code> lunges, while prey trigger evasive <code>FLEE</code> zig-zag bursts.</td>
+      </tr>
+      <tr>
+        <td><strong>Depth & Habitat Clamping</strong></td>
+        <td><code>OceanEnvironment.js</code>, <code>EcosystemAI.js</code></td>
+        <td>Strict biological depth clamping prevents creatures from breaching above $-2.5\text{m}$ or penetrating through the seabed floor at $-148\text{m}$.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 4: APIS USED -->
+  <div class="page-break"></div>
+  <h1>4. External APIs & Web Standards Used</h1>
+  <p>Ocean Pro leverages both industry-standard browser APIs and real-world scientific marine data APIs:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 20%;">API / Service</th>
+        <th style="width: 25%;">Endpoint / Integration</th>
+        <th style="width: 15%;">Protocol</th>
+        <th style="width: 40%;">Purpose & Data Retrieved</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Google Gemini API</strong></td>
+        <td><code>GoogleGenAI</code> SDK (Interactions / Chat API)</td>
+        <td>HTTPS / gRPC via SDK</td>
+        <td>Agentic AI reasoning, 3D asset filename parsing, autonomous tool orchestration, and biological evidence synthesis.</td>
+      </tr>
+      <tr>
+        <td><strong>WoRMS REST API</strong></td>
+        <td><code>marinespecies.org/rest/AphiaRecordsByMatchNames</code></td>
+        <td>HTTPS GET REST</td>
+        <td>World Register of Marine Species. Authoritative taxonomic hierarchy (Kingdom, Phylum, Class, Order, Family, Genus), accepted scientific names, and AphiaIDs.</td>
+      </tr>
+      <tr>
+        <td><strong>FishBase API</strong></td>
+        <td><code>fishbase.ropensci.org/species</code></td>
+        <td>HTTPS GET REST</td>
+        <td>Comprehensive marine biology database: trophic level (herbivore/carnivore), biological swimming speed, depth envelopes, and IUCN conservation status.</td>
+      </tr>
+      <tr>
+        <td><strong>OBIS API</strong></td>
+        <td><code>api.obis.org/v3/occurrence</code></td>
+        <td>HTTPS GET REST</td>
+        <td>Ocean Biodiversity Information System. Global geographic occurrence records, lat/long density centroids, and ocean basin habitats.</td>
+      </tr>
+      <tr>
+        <td><strong>NOAA ERDDAP API</strong></td>
+        <td><code>coastwatch.pfeg.noaa.gov/erddap/</code></td>
+        <td>HTTPS GET REST</td>
+        <td>NOAA satellite SST (Sea Surface Temperature), ocean salinity, and geostrophic surface currents for real-world environmental conditioning.</td>
+      </tr>
+      <tr>
+        <td><strong>WebGL 2.0 API</strong></td>
+        <td>Browser standard via Three.js</td>
+        <td>Native WebGL</td>
+        <td>GPU rendering context, floating-point framebuffers, instanced mesh rendering for reefs, uniform buffer objects, and GLSL ES 3.0 shaders.</td>
+      </tr>
+      <tr>
+        <td><strong>HTML5 Canvas 2D API</strong></td>
+        <td><code>HTMLCanvasElement.getContext('2d')</code></td>
+        <td>Native DOM</td>
+        <td>Renders the circular bathymetric Sonar Radar HUD, sweep beam rotation, blip coordinate mapping, and vessel heading indicator.</td>
+      </tr>
+      <tr>
+        <td><strong>Web Storage API</strong></td>
+        <td><code>window.localStorage</code></td>
+        <td>Client Storage</td>
+        <td>Persistent client-side caching of verified species profiles in <code>KnowledgeCache.js</code> to ensure instant load times and eliminate API rate limits.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 5: OCEANOGRAPHIC INSTRUMENTATION -->
+  <div class="page-break"></div>
+  <h1>5. Oceanographic Instrumentation & Scientific Simulations</h1>
+
+  <h2>5.1. Autonomous Instruments</h2>
+  <ul>
+    <li><strong>Argo Profiling Floats (<code>ArgoManager.js</code>):</strong> Modeled after the International Argo Program. Floats drift neutrally at 1,000m, execute deep vertical profiling casts down to 2,000m, and ascend to the surface to transmit CTD (Conductivity, Temperature, Depth) telemetry.</li>
+    <li><strong>Autonomous Underwater Gliders (<code>GliderManager.js</code>):</strong> Modeled after NOAA IOOS ocean gliders. Utilize internal mineral oil bladders for buoyancy-driven sawtooth flight profiles through coastal and pelagic transects without propellers.</li>
+    <li><strong>Benthic Shipwrecks & Habitats (<code>ShipwreckManager.js</code>):</strong> Sunken galleon asset positioned on the abyssal seafloor (-146m) acting as an artificial reef congregating demersal species.</li>
+  </ul>
+
+  <h2>5.2. Scientific Simulation Modules</h2>
+  <ul>
+    <li><strong>Potential Fishing Zone (PFZ) Advisory (<code>PFZEngine.js</code>):</strong> Simulates oceanic thermal gradients, SST front delineation, and chlorophyll concentration boundaries where pelagic fish congregate.</li>
+    <li><strong>SAR (Search and Rescue) Leeway Drift Engine (<code>DriftSimulationEngine.js</code>):</strong> Monte Carlo drift dispersion calculation integrating surface current vectors, 10-meter windage vectors, and Stokes wave drift to project datum search areas.</li>
+    <li><strong>Geostrophic Eddies (<code>EddySimulation.js</code>):</strong> Simulates cyclonic (cold core, upwelling) and anticyclonic (warm core, downwelling) ocean vortices.</li>
+  </ul>
+
+  <!-- SECTION 6: DIRECTORY STRUCTURE -->
+  <h1>6. Codebase File Structure</h1>
+  <pre>
+d:/ocean-pro/
+├── package.json               # Project dependencies and npm scripts
+├── vite.config.js             # Vite build and asset pipeline configuration
+├── index.html                 # Main entry HTML with viewport and DOM mounts
+├── server/
+│   ├── index.js               # Express 5 backend server (Port 3000)
+│   ├── intelligence/
+│   │   └── GeminiAgent.js     # Server-side Gemini AI research agent
+│   └── tools/
+│       ├── index.js           # Tool exports and registry
+│       ├── worms.js           # WoRMS REST API integration
+│       ├── fishbase.js        # FishBase biological API integration
+│       ├── obis.js            # OBIS biogeographic API integration
+│       └── erddap.js          # NOAA ERDDAP oceanographic data API
+└── src/
+    ├── main.js                # Core app entrypoint and main animation loop
+    ├── Ocean.js               # Three.js ocean water mesh and Gerstner shaders
+    ├── Sky.js                 # Atmospheric dome, sun, and moon positioning
+    ├── Clouds.js              # Procedural volumetric clouds
+    ├── Floor.js               # Noise-displaced seabed terrain
+    ├── Post.js                # Custom post-processing and volumetric lighting
+    ├── Radar.js               # Canvas 2D bathymetric sonar radar HUD
+    ├── HybridControls.js      # Boat/car-style camera navigation system
+    ├── creatures/
+    │   ├── CreatureLoader.js  # GLTF loader, pivot centering, and scaling
+    │   └── CreatureRegistry.js# Spatial entity registry
+    ├── ecosystem/
+    │   ├── EcosystemAI.js     # Agent lifecycle coordinator (60 FPS)
+    │   ├── DecisionSystem.js  # Hierarchical FSM (Wander, School, Chase, Flee)
+    │   ├── SchoolManager.js   # Boids flocking coordination algorithm
+    │   ├── TargetSelection.js # Food web predator-prey taxonomy matching
+    │   ├── Steering.js        # Kinematic steering behaviors
+    │   ├── Perception.js      # Entity sensory radius and visibility
+    │   ├── CreatureMemory.js  # Agent state, targets, and cooldown timers
+    │   ├── BehaviorBuilder.js # Profile constructor from biological knowledge
+    │   └── BehaviorProfile.js # Formalized creature behavioral profile model
+    ├── environment/
+    │   ├── CoralManager.js    # Benthic reef distribution and seabed anchoring
+    │   ├── ShipwreckManager.js# Seafloor galleon placement and reef habitat
+    │   └── OceanEnvironment.js# Physical bounds and depth clamping
+    ├── instruments/
+    │   ├── InstrumentManager.js # Coordinator for robotic ocean instruments
+    │   ├── ArgoManager.js       # Autonomous CTD profiling float behavior
+    │   └── GliderManager.js     # Autonomous underwater glider sawtooth flight
+    ├── intelligence/
+    │   ├── KnowledgeBuilder.js  # Multi-tier knowledge orchestration layer
+    │   ├── MarineKnowledgeBase.js# Authoritative 40+ species local encyclopedia
+    │   ├── KnowledgeCache.js    # LocalStorage profile persistence
+    │   └── GeminiAgent.js       # Client proxy to backend intelligence
+    ├── simulation/
+    │   ├── PFZEngine.js         # Potential Fishing Zone simulation
+    │   └── DriftSimulationEngine.js # SAR Leeway Monte Carlo drift engine
+    └── ui/
+        └── UIManager.js       # Glassmorphism UI, Codex modal, and depth HUD
+  </pre>
+
+</body>
+</html>

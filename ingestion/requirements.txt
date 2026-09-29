@@ -1,0 +1,8 @@
+# Ocean Pro — Python ingestion service dependencies.
+# Install into a venv:  python -m venv .venv &&  .venv/Scripts/pip install -r requirements.txt
+fastapi
+uvicorn[standard]
+requests
+truststore
+xarray
+netCDF4
